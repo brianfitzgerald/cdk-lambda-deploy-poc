@@ -1,5 +1,4 @@
 import * as express from "express";
-import { serveApp } from "../lib/cdk-app-stack";
 
 const app = express();
 

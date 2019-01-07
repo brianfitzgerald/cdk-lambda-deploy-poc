@@ -12,9 +12,11 @@ export class CdkAppStack extends cdk.Stack {
     // get list of decorators
     // create function with generated handler
 
-    serveApp(app, this)
+    handlerFunctions = serveApp(app, this)
   }
 }
+
+export var handlerFunctions = {}
 
 export function serveApp(app: express.Express, stack: cdk.Stack) {
 
@@ -46,5 +48,5 @@ export function serveApp(app: express.Express, stack: cdk.Stack) {
     
   });
 
-  return lambdas
+  return handlerFunctions
 }
