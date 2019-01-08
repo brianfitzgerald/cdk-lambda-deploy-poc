@@ -1,5 +1,6 @@
 import cdk = require('@aws-cdk/cdk');
 import lambda = require('@aws-cdk/aws-lambda');
+import apigateway = require('@aws-cdk/aws-apigateway');
 import * as express from "express";
 import app from '../app';
 
@@ -20,6 +21,7 @@ export var handlerFunctions = {}
 
 export function serveApp(app: express.Express, stack: cdk.Stack) {
 
+
   const handlerFunctions: any = {}
   const lambdas: any[] = []
   app._router.stack.forEach((stackItem: any) => {
@@ -32,7 +34,15 @@ export function serveApp(app: express.Express, stack: cdk.Stack) {
 
       console.log(handlerFunction)
 
+      const api = new apigateway.LambdaRestApi(stack, 'express-api', {
+        handler: handlerFunctions
+      });    
+
       const handle = `stack.handlerFunctions.${routePath}`
+
+      const route = api.root.addResource(stackItem.route.path);
+
+      route.addMethod(stackItem.method)
 
       console.log(routePath);
 
